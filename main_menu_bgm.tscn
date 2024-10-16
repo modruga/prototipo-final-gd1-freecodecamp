@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cbwnwng5a8xaf"]
+
+[ext_resource type="AudioStream" uid="uid://cweid84odhsc7" path="res://assets/curious_theme.wav" id="1_yt1du"]
+
+[node name="MainMenuBGM" type="AudioStreamPlayer2D"]
+stream = ExtResource("1_yt1du")
+volume_db = -5.0

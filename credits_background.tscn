@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://cighx8voeo705"]
+
+[ext_resource type="Texture2D" uid="uid://bqlu411hqoibq" path="res://assets/Sunny Land Collection Files/Assets/Environments/Mountain/Environment/back.png" id="1_3867u"]
+[ext_resource type="Script" path="res://credits_background.gd" id="1_otxrm"]
+[ext_resource type="Texture2D" uid="uid://o6tdj7e7lah" path="res://assets/Sunny Land Collection Files/Assets/Environments/Mountain/Environment/middle.png" id="2_2e0kt"]
+
+[node name="CreditsBackground" type="ParallaxBackground"]
+script = ExtResource("1_otxrm")
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.2, 0.2)
+motion_offset = Vector2(2.265, 0)
+motion_mirroring = Vector2(820.415, 0)
+
+[node name="background" type="Sprite2D" parent="ParallaxLayer"]
+position = Vector2(393, 327.5)
+scale = Vector2(5.1375, 2.82083)
+texture = ExtResource("1_3867u")
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.2, 0.2)
+motion_mirroring = Vector2(714.71, 0)
+
+[node name="clouds" type="Sprite2D" parent="ParallaxLayer2"]
+position = Vector2(277.5, 301)
+scale = Vector2(4.46875, 2.99167)
+texture = ExtResource("2_2e0kt")

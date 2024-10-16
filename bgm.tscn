@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://5qnm3mexg5fo"]
+
+[ext_resource type="AudioStream" uid="uid://c4vep3i7jef0s" path="res://assets/Colorless Machine.mp3" id="1_bnt8u"]
+
+[node name="BGM" type="AudioStreamPlayer2D"]
+stream = ExtResource("1_bnt8u")
+volume_db = 13.0
+autoplay = true
+max_distance = 4000.0
+attenuation = 2.0844e-05

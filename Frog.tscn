@@ -1,0 +1,191 @@
+[gd_scene load_steps=25 format=3 uid="uid://mmbov65fd2sn"]
+
+[ext_resource type="Texture2D" uid="uid://dldjqtx6jttt1" path="res://assets/Sunny Land Collection Files/Assets/Props Items and VFX/enemy-death/spritesheet.png" id="1_0bk0p"]
+[ext_resource type="Script" path="res://frog.gd" id="1_snxmj"]
+[ext_resource type="Texture2D" uid="uid://bfr0lowt5i5ak" path="res://assets/Sunny Land Collection Files/Assets/Characters/Enemies and NPC/frog/Spritesheets/frog-idle.png" id="2_pa4ui"]
+[ext_resource type="Texture2D" uid="uid://boak33q08dxs7" path="res://assets/Sunny Land Collection Files/Assets/Characters/Enemies and NPC/frog/Spritesheets/frog-jump.png" id="3_7oy5w"]
+[ext_resource type="AudioStream" uid="uid://s38km42cr4u7" path="res://assets/poof_1.wav" id="5_sr85j"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_asbwv"]
+height = 20.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1n3oy"]
+atlas = ExtResource("1_0bk0p")
+region = Rect2(0, 0, 64, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4w3l6"]
+atlas = ExtResource("1_0bk0p")
+region = Rect2(64, 0, 64, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0e3ea"]
+atlas = ExtResource("1_0bk0p")
+region = Rect2(128, 0, 64, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2p76o"]
+atlas = ExtResource("1_0bk0p")
+region = Rect2(192, 0, 64, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_etvxh"]
+atlas = ExtResource("1_0bk0p")
+region = Rect2(256, 0, 64, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v52vr"]
+atlas = ExtResource("1_0bk0p")
+region = Rect2(320, 0, 64, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fjm83"]
+atlas = ExtResource("1_0bk0p")
+region = Rect2(384, 0, 64, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_27vt0"]
+atlas = ExtResource("2_pa4ui")
+region = Rect2(0, 0, 35, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3xuok"]
+atlas = ExtResource("2_pa4ui")
+region = Rect2(35, 0, 35, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nsy4t"]
+atlas = ExtResource("2_pa4ui")
+region = Rect2(70, 0, 35, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_80r8h"]
+atlas = ExtResource("2_pa4ui")
+region = Rect2(105, 0, 35, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_evjka"]
+atlas = ExtResource("3_7oy5w")
+region = Rect2(0, 0, 35, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gj62p"]
+atlas = ExtResource("3_7oy5w")
+region = Rect2(35, 0, 35, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j2c2q"]
+atlas = ExtResource("3_7oy5w")
+region = Rect2(70, 0, 35, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fuht8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1n3oy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4w3l6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0e3ea")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2p76o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_etvxh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v52vr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fjm83")
+}],
+"loop": false,
+"name": &"death",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_27vt0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3xuok")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nsy4t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_80r8h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_27vt0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_27vt0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_27vt0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_27vt0")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_evjka")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gj62p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j2c2q")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_a2k8s"]
+radius = 53.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i70dt"]
+size = Vector2(21, 9)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0vpq3"]
+size = Vector2(33, 13)
+
+[node name="Frog" type="CharacterBody2D"]
+script = ExtResource("1_snxmj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 2)
+shape = SubResource("CapsuleShape2D_asbwv")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_fuht8")
+animation = &"idle"
+metadata/_edit_lock_ = true
+
+[node name="PlayerDetection" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetection"]
+position = Vector2(-1, 2)
+shape = SubResource("CircleShape2D_a2k8s")
+
+[node name="FrogHit" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FrogHit"]
+position = Vector2(0.5, -6.5)
+shape = SubResource("RectangleShape2D_i70dt")
+
+[node name="FrogCollision" type="Area2D" parent="."]
+collision_layer = 5
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FrogCollision"]
+position = Vector2(-0.5, 4.5)
+shape = SubResource("RectangleShape2D_0vpq3")
+
+[node name="DeathSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_sr85j")
+volume_db = -10.0
+area_mask = 5
+
+[connection signal="body_entered" from="PlayerDetection" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="PlayerDetection" to="." method="_on_player_detection_body_exited"]
+[connection signal="body_entered" from="FrogHit" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="FrogHit" to="." method="_on_frog_hit_body_entered"]
+[connection signal="body_exited" from="FrogHit" to="." method="_on_player_detection_body_exited"]
+[connection signal="body_entered" from="FrogCollision" to="." method="_on_frog_collision_body_entered"]

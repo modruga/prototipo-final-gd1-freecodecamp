@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=3 uid="uid://cegwdesl6ixxg"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_gbr3i"]
+[ext_resource type="PackedScene" uid="uid://cbwnwng5a8xaf" path="res://main_menu_bgm.tscn" id="2_iqqhs"]
+[ext_resource type="PackedScene" uid="uid://dbi6006b1txdy" path="res://main_menu_bg.tscn" id="2_stdev"]
+[ext_resource type="AudioStream" uid="uid://bm7seskl6eqn2" path="res://assets/MENU A_Select.wav" id="4_wgbj8"]
+[ext_resource type="AudioStream" uid="uid://certediv5qs2i" path="res://assets/MENU A - Back.wav" id="5_cps62"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_gbr3i")
+
+[node name="MainMenuBG" parent="." instance=ExtResource("2_stdev")]
+
+[node name="PlayButton" type="Button" parent="."]
+offset_left = 500.0
+offset_top = 248.0
+offset_right = 650.0
+offset_bottom = 323.0
+tooltip_text = "esse botão inicia o jogo."
+text = "Jogar"
+
+[node name="CreditsButton" type="Button" parent="."]
+offset_left = 1021.0
+offset_top = 555.0
+offset_right = 1101.0
+offset_bottom = 605.0
+text = "Créditos"
+
+[node name="QuitButton" type="Button" parent="."]
+offset_left = 500.0
+offset_top = 332.0
+offset_right = 650.0
+offset_bottom = 407.0
+tooltip_text = "esse botão fecha o jogo."
+text = "Sair"
+
+[node name="MainMenuBGM" parent="." instance=ExtResource("2_iqqhs")]
+
+[node name="SelectSound" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(500, 332)
+stream = ExtResource("4_wgbj8")
+volume_db = -10.0
+
+[node name="QuitSound" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(500, 332)
+stream = ExtResource("5_cps62")
+volume_db = -10.0
+
+[connection signal="pressed" from="PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="CreditsButton" to="." method="_on_credits_button_pressed"]
+[connection signal="pressed" from="QuitButton" to="." method="_on_quit_button_pressed"]
