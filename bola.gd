@@ -4,6 +4,8 @@ extends CharacterBody2D
 # pulo do Player
 var combo = 0
 
+var bolaCoins = 0
+
 func _ready():
 	
 	# é realizada a sincronização da posição horizontal do Player e
@@ -20,9 +22,8 @@ func _ready():
 
 func _physics_process(delta):
 	
-	if get_node("../..").paused:
-		velocity += Vector2(0,0)
-	else:
+	
+	
 	# aqui, dentro de _physics_process, é atualizado a cada frame a
 	# posição da bola em relação à posição horizontal do Player
 		var PlayerXPos = get_node("../../Player/Player").position.x
@@ -133,7 +134,7 @@ func _on_area_2d_body_entered(body):
 					get_node("../Player").SPEED = 250
 					get_node("../Player").JUMP_VELOCITY = -375
 					
-					comboColor = Color(255.0, 150.0, 0.0, 1.0) # laranja
+					comboColor = Color(100.0, 150.0, 0.0, 1.0) # laranja
 					get_node("../../UI/Combo").set("theme_override_colors/font_color", comboColor) # laranja
 					
 				5:

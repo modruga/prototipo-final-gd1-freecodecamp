@@ -1,0 +1,65 @@
+[gd_scene load_steps=12 format=3 uid="uid://bh23l55iofa3i"]
+
+[ext_resource type="Texture2D" uid="uid://6hngip61fg1q" path="res://assets/Coins/coin_01.png" id="1_dorxv"]
+[ext_resource type="Script" path="res://ballectible.gd" id="1_fmwlr"]
+[ext_resource type="Texture2D" uid="uid://c6avfi5lkh5sg" path="res://assets/Coins/coin_02.png" id="2_dmrio"]
+[ext_resource type="Texture2D" uid="uid://bfqcujxrcbmtm" path="res://assets/Coins/coin_03.png" id="3_cbiht"]
+[ext_resource type="Texture2D" uid="uid://b7d5iwqv7dx77" path="res://assets/Coins/coin_04.png" id="4_2itj5"]
+[ext_resource type="Texture2D" uid="uid://dheiwspgkq608" path="res://assets/Coins/coin_05.png" id="5_cuslr"]
+[ext_resource type="Texture2D" uid="uid://xgos37af7j6y" path="res://assets/Coins/coin_06.png" id="6_nj5j5"]
+[ext_resource type="Texture2D" uid="uid://dxevvqg4bshd5" path="res://assets/Coins/coin_07.png" id="7_j37qv"]
+[ext_resource type="Texture2D" uid="uid://f145aqoosnl" path="res://assets/Coins/coin_08.png" id="8_os352"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bnmdv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_dorxv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_dmrio")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_cbiht")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_2itj5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_cuslr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_nj5j5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_j37qv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_os352")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_43whq"]
+radius = 8.0
+
+[node name="Ballectible" type="Node2D"]
+script = ExtResource("1_fmwlr")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+self_modulate = Color(0.847059, 0.0235294, 0.145098, 1)
+scale = Vector2(0.355556, 0.355556)
+sprite_frames = SubResource("SpriteFrames_bnmdv")
+animation = &"idle"
+
+[node name="Area2D" type="Area2D" parent="."]
+modulate = Color(1, 0.341176, 0.0705882, 1)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_43whq")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

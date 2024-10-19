@@ -14,12 +14,17 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 # para acessar os métodos relacionados ao corpo do jogador
 var player
 
+# variável booleana que guarda se Frog está vivo ou não
+var alive = true
+
+# creio que não esteja implementado nenhum uso pra isso no seu nome atual,
+# essa variável dita na verdade a velocidade de movimento do Frog
 var jumpSPEED = 100
 
-@onready var collision_shape_2d = $CollisionShape2D
-@onready var PlayerDetection = $FrogHit/CollisionShape2D
-@onready var FrogHit = $FrogCollision/CollisionShape2D
-@onready var FrogCollision = $FrogCollision/CollisionShape2D
+# @onready var collision_shape_2d = $CollisionShape2D
+# @onready var PlayerDetection = $FrogHit/CollisionShape2D
+# @onready var FrogHit = $FrogCollision/CollisionShape2D
+# @onready var FrogCollision = $FrogCollision/CollisionShape2D
 
 # variável global booleana que agirá em conjunto com as conexões de nodo
 # "_on_area_2d_body_entered" e "_on_area_2d_body_exited" com a área
@@ -35,6 +40,9 @@ func _ready():
 	$AnimatedSprite2D.play("idle")
 
 func _physics_process(delta):
+	
+	if !alive:
+		velocity = Vector2(0,0)
 	
 	# variável gravity usando o valor da configuração global do projeto
 	# como multiplicador (em conjunto à delta) para agir sob a
@@ -69,18 +77,22 @@ func _physics_process(delta):
 				# verifica se a animação em andamento não é a de morte
 				# caso não haja essa verificação, o trigger para liberação
 				# de memória ao acertar o inimigo não aciona
-				if get_node("AnimatedSprite2D").animation != "death":
+				if alive:
 					print("chasing right")
 					get_node("AnimatedSprite2D").flip_h = true
 					get_node("AnimatedSprite2D").play("jump")
 					velocity.x = direction.x * SPEED
 		
 		else:
+			
+			# não sei se mencionei antes, mas essa variável booleana altera seu
+			# valor cada vez que o jogador entra ou sai da área de varredura
+			# provida pelo Area2D designado.
 			if chase == true:
 				
 				# a mesma verificação de animação de morte está presente aqui,
 				# com certeza tem uma forma menos burra de fazer isso
-				if get_node("AnimatedSprite2D").animation != "death":
+				if alive:
 					print("chasing left")
 					get_node("AnimatedSprite2D").flip_h = false
 					get_node("AnimatedSprite2D").play("jump")
@@ -96,7 +108,7 @@ func _physics_process(delta):
 		# a lógica do programa-exemplo do freeCodeCamp não devia
 		# ter esse tipo de comprometimento, mas funciona, e é o que
 		# importa, eu acho
-		if get_node("AnimatedSprite2D").animation != "death":
+		if alive:
 			velocity.x = 0
 			get_node("AnimatedSprite2D").play("idle")
 	
@@ -130,56 +142,70 @@ func _on_player_detection_body_exited(body):
 # de alocação de memória que determina o fim da vida útil da entidade
 # Frog. descanse em paz guerreiro
 func _on_frog_hit_body_entered(body):
-	if body.name == "Player":
-		
-		$DeathSound.play()
-		$AnimatedSprite2D.play("death")
-		
-		#---------------------------------------------------#
-		
-		# tentativa falha de tentar se livrar do Area2D e suas respectivas
-		# hitboxes mas percebi que eu não posso fazer isso dentro de uma
-		# conexão de Node2D afinal isso destruiria a própria conexão então
-		# no fim só acabei me sentindo burro mesmo
-		
-		# var collision_shape_2d = $CollisionShape2D
-		# var PlayerDetection = $FrogHit/CollisionShape2D
-		# var FrogHit = $FrogCollision/CollisionShape2D
-		# var FrogCollision = $FrogCollision/CollisionShape2D
-		# var areaFrogHit = $FrogHit
-		
-		# collision_shape_2d.disabled = true
-		# FrogHit.disabled = true
-		# FrogCollision.disabled = true
-		# PlayerDetection.disabled = true
-		
-		# como CARALHOS eu me livro desse hit duplo? é uma questão
-		# da própria estrutura? eu devia ter implementado essa forma
-		# de matar a entidade de um jeito diferente? SOCORRO
-		
-		#---------------------------------------------------#
-		
-		# ao acertar o hurtbox do Frog, a entidade Player recebe um valor
-		# de velocidade instantânea y = -200 para dar um efeito de
-		# "quicada"
-		body.velocity.y = -250
-		
-		# no mundo da programação amadora, nos primeiros semestres da
-		# computação, somos ensinados a nunca, jamais, dependermos de
-		# qualquer sistema de "espera" hard-codado num programa. mas
-		# quebrar esse ensinamento foi MUITO satisfatório.
-		# o método "animation_finished" envia um sinal que indica que
-		# a animação terminou, e dessa forma podemos esperar a explosão
-		# acabar antes da entidade ser jogada ao shadow realm.
-		await $AnimatedSprite2D.animation_finished
-		
-		queue_free()
-		# não adianta mais querer voltar atrás. o sapo morreu. e a culpa
-		# é toda sua.
-		
+	
+	if alive:
+		if body.name == "Player":
+			
+			alive=false
+			
+			self.position = self.position
+			# ao acertar o hurtbox do Frog, a entidade Player recebe um valor
+			# de velocidade instantânea y = -200 para dar um efeito de
+			# "quicada"
+			body.velocity.y = -300
+			
+			# set_deferred recebe uma string e um valor equivalente ao tipo
+			# de input necessário para a confuração acessada
+			$CollisionShape2D.set_deferred("disabled",true)
+			$FrogHit/CollisionShape2D.set_deferred("disabled", true)
+			$FrogCollision/CollisionShape2D.set_deferred("disabled", true)
+			$DeathSound.play()
+			$AnimatedSprite2D.play("death")
+			
+			#---------------------------------------------------#
+			
+			# tentativa falha de tentar se livrar do Area2D e suas respectivas
+			# hitboxes mas percebi que eu não posso fazer isso dentro de uma
+			# conexão de Node2D afinal isso destruiria a própria conexão então
+			# no fim só acabei me sentindo burro mesmo
+			
+			# var collision_shape_2d = $CollisionShape2D
+			# var PlayerDetection = $FrogHit/CollisionShape2D
+			# var FrogHit = $FrogCollision/CollisionShape2D
+			# var FrogCollision = $FrogCollision/CollisionShape2D
+			# var areaFrogHit = $FrogHit
+			
+			# collision_shape_2d.disabled = true
+			# FrogHit.disabled = true
+			# FrogCollision.disabled = true
+			# PlayerDetection.disabled = true
+			
+			# como CARALHOS eu me livro desse hit duplo? é uma questão
+			# da própria estrutura? eu devia ter implementado essa forma
+			# de matar a entidade de um jeito diferente? SOCORRO
+			
+			#---------------------------------------------------#
+			
+			
+			
+			# no mundo da programação amadora, nos primeiros semestres da
+			# computação, somos ensinados a nunca, jamais, dependermos de
+			# qualquer sistema de "espera" hard-codado num programa. mas
+			# quebrar esse ensinamento foi MUITO satisfatório.
+			# o método "animation_finished" envia um sinal que indica que
+			# a animação terminou, e dessa forma podemos esperar a explosão
+			# acabar antes da entidade ser jogada ao shadow realm.
+			await $AnimatedSprite2D.animation_finished
+			
+			queue_free()
+			# não adianta mais querer voltar atrás. o sapo morreu. e a culpa
+			# é toda sua.
+			
 
 # caso o jogador entre na área determinada pelo nodo FrogCollision, 
 # seu atributo "health" é subtraído em 3
 func _on_frog_collision_body_entered(body):
-	if body.name == "Player":
-		body.health = 0
+	if alive:
+		if body.name == "Player":
+			body.health = 0
+		

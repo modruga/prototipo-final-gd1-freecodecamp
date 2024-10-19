@@ -7,6 +7,7 @@ extends ParallaxBackground
 # do background
 var scrollingSpeed = 30
 
+# em tempo real, é processado o offset (movimento) do parallax
 func _process(delta):
 	
 	# multiplicação do valor do offset ditada pelo delta

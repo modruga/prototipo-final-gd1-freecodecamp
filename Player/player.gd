@@ -1,8 +1,8 @@
 extends CharacterBody2D
 
 # variável que armazena o valor de vida do Player
-var health = 10
-
+@export var health = 1
+@export var coins = 0
 @export var isDying = false
 
 var songPlayed=false
@@ -10,6 +10,8 @@ var songPlayed=false
 # constante global usada para definir a velocidade de movimento
 # do personagem ao usar inputs de movimento
 @export var SPEED = 100.0
+
+var alive = true
 
 # constante global usada para definir velocidade instantânea do
 # pulo do personagem
@@ -34,16 +36,24 @@ func _ready():
 # contrário de _process(), que não é constante
 func _physics_process(delta):	
 	
+	# isso aqui ficou uma bosta
+	if !alive:
+		velocity.x = 0
+		$CollisionShape2D.set_deferred("disabled", true)
+		$".".set_deferred("disabled", true)
+	
+	# eu ia fazer a implementação de um menu usando os nodos de UI incluídos
+	# na Godot, mas a essa altura com tudo que tá acontecendo ao meu redor é
+	# mais fácil eu engatinhar no rodapé e comer reboco da parede
 	if Input.is_action_just_pressed("Pause"):
-		get_tree().paused = true
-		if get_tree().paused == true:
-			
-			if Input.is_action_just_pressed("Pause"):
-				get_tree().paused = false	
+		get_tree().change_scene_to_file("res://main.tscn")
 		
 	# isso aqui tá horrível!!! socorro
 	if health <= 0:
 		
+		# fun fact: esqueci dessa booleana ao implementar as chamadas
+		# com a variável "alive". ela basicamente indica a mesma coisa,
+		# porém gastando o dobro de memória :)
 		isDying = true
 		velocity = Vector2(0,0)
 		
@@ -69,38 +79,41 @@ func _physics_process(delta):
 		anim.play("jump")
 		get_node("AudioStreamPlayer2D").play()
 	
-	# o valor de direção alterna entre os valores "-1, 0 e 1",
-	# sendo -1 esquerda e 1 direita, e usa os inputs "move_left" e
-	# "move_right" em seus parâmetros para futuramente definir a
-	# direção de movimento do personagem. isso foi definido em
-	# project > project settings > input
-	var direction := Input.get_axis("move_left", "move_right")
-	
-	# caso a direção seja -1, inverte o sentido da animação
-	# em andamento no nodo "AnimatedSprite2D".
-	# por padrão, o valor atribuído é 1, pois os sprites
-	# desenhados olhando para a direita.
-	if direction == -1:
-		get_node("AnimatedSprite2D").flip_h = true
-	elif direction == 1:
-		get_node("AnimatedSprite2D").flip_h = false
-	
-	# usando o valor retornado pelo método get_axis(String[]),
-	# é aplicada a direção de velocidade do personagem, usando o
-	# valor de direção (-1, 0 ou 1) para multiplicar pela velocidade
-	# atual do personagem
-	if(direction):
-		velocity.x = direction * SPEED
-		if velocity.y == 0:
-			anim.play("run")
-	
-	# caso não haja inputs, o jogador torna a desacelerar até
-	# alcançar o valor 0, e passa então a executar a animação
-	# idle
+	if alive:
+		# o valor de direção alterna entre os valores "-1, 0 e 1",
+		# sendo -1 esquerda e 1 direita, e usa os inputs "move_left" e
+		# "move_right" em seus parâmetros para futuramente definir a
+		# direção de movimento do personagem. isso foi definido em
+		# project > project settings > input
+		var direction := Input.get_axis("move_left", "move_right")
+		
+		# caso a direção seja -1, inverte o sentido da animação
+		# em andamento no nodo "AnimatedSprite2D".
+		# por padrão, o valor atribuído é 1, pois os sprites
+		# desenhados olhando para a direita.
+		if direction == -1:
+			get_node("AnimatedSprite2D").flip_h = true
+		elif direction == 1:
+			get_node("AnimatedSprite2D").flip_h = false
+		
+		# usando o valor retornado pelo método get_axis(String[]),
+		# é aplicada a direção de velocidade do personagem, usando o
+		# valor de direção (-1, 0 ou 1) para multiplicar pela velocidade
+		# atual do personagem
+		if(direction):
+			velocity.x = direction * SPEED
+			if velocity.y == 0:
+				anim.play("run")
+		
+		# caso não haja inputs, o jogador torna a desacelerar até
+		# alcançar o valor 0, e passa então a executar a animação
+		# idle
+		else:
+			velocity.x = move_toward(velocity.x, 0, SPEED)
+			if velocity.y == 0:
+				anim.play("idle")
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		if velocity.y == 0:
-			anim.play("idle")
+		velocity.x = 0
 	
 	# caso o personagem esteja em queda (aumento do valor y),
 	# independente se tiver sido originado da ação pulo ou não,

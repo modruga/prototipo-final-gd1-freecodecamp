@@ -19,7 +19,7 @@
 [ext_resource type="AudioStream" uid="uid://dhbax202ynvv7" path="res://assets/losetrumpet.wav" id="17_tvgdm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yoahk"]
-size = Vector2(12.8052, 22.5442)
+size = Vector2(15.1335, 24.6913)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bsebv"]
 atlas = ExtResource("2_b5b4p")
@@ -338,7 +338,7 @@ _data = {
 script = ExtResource("1_0p6c0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.5, 3.5)
+position = Vector2(-0.5, 5.5)
 scale = Vector2(0.859024, 0.931503)
 shape = SubResource("RectangleShape2D_yoahk")
 one_way_collision_margin = 0.0
@@ -346,7 +346,7 @@ debug_color = Color(0.966561, 0, 0.479763, 0.42)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_cepm8")
-animation = &"death"
+animation = &"idle"
 frame = 1
 metadata/_edit_lock_ = true
 

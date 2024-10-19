@@ -1,0 +1,67 @@
+[gd_scene load_steps=13 format=3 uid="uid://o4vw47cuyad7"]
+
+[ext_resource type="Texture2D" uid="uid://6hngip61fg1q" path="res://assets/Coins/coin_01.png" id="1_5bt5q"]
+[ext_resource type="Script" path="res://coin.gd" id="1_xrs06"]
+[ext_resource type="Texture2D" uid="uid://c6avfi5lkh5sg" path="res://assets/Coins/coin_02.png" id="2_046cd"]
+[ext_resource type="Texture2D" uid="uid://bfqcujxrcbmtm" path="res://assets/Coins/coin_03.png" id="3_0a3m7"]
+[ext_resource type="Texture2D" uid="uid://b7d5iwqv7dx77" path="res://assets/Coins/coin_04.png" id="4_qxkum"]
+[ext_resource type="Texture2D" uid="uid://dheiwspgkq608" path="res://assets/Coins/coin_05.png" id="5_ov0hc"]
+[ext_resource type="Texture2D" uid="uid://xgos37af7j6y" path="res://assets/Coins/coin_06.png" id="6_ulu2w"]
+[ext_resource type="Texture2D" uid="uid://dxevvqg4bshd5" path="res://assets/Coins/coin_07.png" id="7_jhjq0"]
+[ext_resource type="Texture2D" uid="uid://f145aqoosnl" path="res://assets/Coins/coin_08.png" id="8_3vdoa"]
+[ext_resource type="AudioStream" uid="uid://bpt5wxnv5c8xv" path="res://assets/bfxr_sounds/Pickup_Coin.wav" id="10_2jqi5"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vnwdp"]
+radius = 3.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vguh2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_5bt5q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_046cd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_0a3m7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_qxkum")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_ov0hc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_ulu2w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_jhjq0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_3vdoa")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 11.0
+}]
+
+[node name="Coin" type="Node2D"]
+script = ExtResource("1_xrs06")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_vnwdp")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.177778, 0.177778)
+sprite_frames = SubResource("SpriteFrames_vguh2")
+animation = &"idle"
+frame_progress = 0.196141
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_2jqi5")
+volume_db = -25.0
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
